@@ -14,7 +14,7 @@ use Ahc\Json\Comment;
 
 // The JSON string!
 $someJsonText = '{...}';
-$someJsonText = file_get_contents('...'');
+$someJsonText = file_get_contents('...');
 
 // Strip only!
 (new Comment)->strip($someJsonText);
