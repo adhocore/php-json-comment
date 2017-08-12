@@ -2,6 +2,7 @@
 
 - Lightweight JSON comment stripper library for PHP.
 - Makes possible to have comment in any form of JSON data.
+- Supported comments: single line `// comment` or multi line `/* comment */`.
 
 ## Installation
 ```bash
