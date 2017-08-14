@@ -24,11 +24,10 @@ class CommentTest extends \PHPUnit_Framework_TestCase
     {
         $actual = (new Comment)->decode($json, true);
 
+        $this->assertSame(JSON_ERROR_NONE, json_last_error());
         $this->assertNotEmpty($actual);
         $this->assertArrayHasKey('a', $actual);
         $this->assertArrayHasKey('b', $actual);
-
-        $this->assertSame(JSON_ERROR_NONE, json_last_error());
     }
 
     public function theTests()
@@ -79,6 +78,14 @@ class CommentTest extends \PHPUnit_Framework_TestCase
             'comment inside string' => [
                 'json'   => '{"a": "a//b", "b":"a/* not really comment */b"}',
                 'expect' => '{"a": "a//b", "b":"a/* not really comment */b"}',
+            ],
+            'escaped string' => [
+                'json'   => '{"a": "a//b", "b":"a/* \"not really comment\" */b"}',
+                'expect' => '{"a": "a//b", "b":"a/* \"not really comment\" */b"}',
+            ],
+            'string inside comment' => [
+                'json'   => '{"a": "ab", /* also comment */ "b":"a/* not a comment */b" /* "comment string" */ }',
+                'expect' => '{"a": "ab",  "b":"a/* not a comment */b"  }',
             ],
         ];
     }

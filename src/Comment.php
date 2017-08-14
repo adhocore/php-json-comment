@@ -22,47 +22,43 @@ class Comment
             return $json;
         }
 
-        $index   = 0;
+        $index   = -1;
         $comment = $inStr = false;
         $return  = $char  = '';
 
-        while (isset($json[$index])) {
+        while (isset($json[++$index])) {
             $prev = $char;
             $char = $json[$index];
 
-            if ($char === '"' && $prev !== '\\') {
+            if (!$comment && $char === '"' && $prev !== '\\') {
                 $inStr = !$inStr;
             }
 
-            if (!$inStr) {
-                $next = isset($json[$index + 1]) ? $json[$index + 1] : '';
+            $next = isset($json[$index + 1]) ? $json[$index + 1] : '';
 
-                if (!$comment && $char . $next === '//') {
-                    $comment = 'single';
-                } elseif (!$comment && $char . $next === '/*') {
-                    $comment = 'multi';
-                }
-
-                if ($comment) {
-                    if (($comment === 'single' && $char == "\n") ||
-                        ($comment === 'multi'  && $char . $next == "*/")
-                    ) {
-                        // Cosmetic fix only!
-                        if ($comment === 'single') {
-                            $return = rtrim($return) . $char;
-                        }
-                        $comment = false;
-                    }
-
-                    $index += $char . $next === '*/' ? 2 : 1;
-
-                    continue;
-                }
+            if (!$inStr && !$comment && $char . $next === '//') {
+                $comment = 'single';
+            } elseif (!$inStr && !$comment && $char . $next === '/*') {
+                $comment = 'multi';
             }
 
-            $return .= $char;
+            if ($inStr || !$comment) {
+                $return .= $char;
 
-            ++$index;
+                continue;
+            }
+
+            if (($comment === 'single' && $char == "\n") ||
+                ($comment === 'multi'  && $char . $next == "*/")
+            ) {
+                // Cosmetic fix only!
+                if ($comment === 'single') {
+                    $return = rtrim($return) . $char;
+                }
+                $comment = false;
+            }
+
+            $index += $char . $next === '*/' ? 1 : 0;
         }
 
         return $return;
