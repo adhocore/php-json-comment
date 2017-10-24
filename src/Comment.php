@@ -29,19 +29,16 @@ class Comment
         $comment = 'none';
 
         while (isset($json[++$index])) {
-            $prev = $char;
-            $char = $json[$index];
+            list($prev, $char) = [$char, $json[$index]];
 
             if ('none' === $comment && $char === '"' && $prev !== '\\') {
                 $inStr = !$inStr;
             }
 
-            $next = isset($json[$index + 1]) ? $json[$index + 1] : '';
+            $charnext = $char . (isset($json[$index + 1]) ? $json[$index + 1] : '');
 
-            if (!$inStr && 'none' === $comment && $char . $next === '//') {
-                $comment = 'single';
-            } elseif (!$inStr && 'none' === $comment && $char . $next === '/*') {
-                $comment = 'multi';
+            if (!$inStr && 'none' === $comment) {
+                $comment = $charnext === '//' ? 'single' : ($charnext === '/*' ? 'multi' : 'none');
             }
 
             if ($inStr || 'none' === $comment) {
@@ -51,7 +48,7 @@ class Comment
             }
 
             if (($comment === 'single' && $char == "\n")
-                || ($comment === 'multi'  && $char . $next == "*/")
+                || ($comment === 'multi'  && $charnext == "*/")
             ) {
                 // Cosmetic fix only!
                 if ($comment === 'single') {
@@ -61,7 +58,7 @@ class Comment
                 $comment = 'none';
             }
 
-            $index += $char . $next === '*/' ? 1 : 0;
+            $index += $charnext === '*/' ? 1 : 0;
         }
 
         return $return;
