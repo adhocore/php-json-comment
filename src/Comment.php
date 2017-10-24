@@ -12,7 +12,7 @@ class Comment
     /**
      * Strip comments from JSON string.
      *
-     * @param  string $json
+     * @param string $json
      *
      * @return string The comment stripped JSON.
      */
@@ -48,7 +48,7 @@ class Comment
             }
 
             if (($comment === 'single' && $char == "\n")
-                || ($comment === 'multi'  && $charnext == "*/")
+                || ($comment === 'multi' && $charnext == '*/')
             ) {
                 // Cosmetic fix only!
                 if ($comment === 'single') {
@@ -67,10 +67,10 @@ class Comment
     /**
      * Strip comments and decode JSON string.
      *
-     * @param  string       $json
-     * @param  bool|boolean $assoc
-     * @param  int|integer  $depth
-     * @param  int|integer  $options
+     * @param string    $json
+     * @param bool|bool $assoc
+     * @param int|int   $depth
+     * @param int|int   $options
      *
      * @see http://php.net/json_decode [JSON decode native function]
      *
