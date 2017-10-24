@@ -16,7 +16,7 @@ class CommentTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($expect, (new Comment)->strip($json));
     }
 
-   /**
+    /**
      * @dataProvider theTests
      * @covers \Ahc\Json\Comment::decode
      */
