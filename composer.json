@@ -25,6 +25,6 @@
     "require": {
     },
     "require-dev": {
-        "phpunit/phpunit": "^5.7.0"
+        "phpunit/phpunit": "^4.8.0"
     }
 }

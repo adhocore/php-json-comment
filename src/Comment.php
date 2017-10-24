@@ -23,42 +23,42 @@ class Comment
         }
 
         $index   = -1;
-        $comment = $inStr = false;
-        $return  = $char  = '';
+        $inStr   = false;
+        $return  = '';
+        $char    = '';
+        $comment = 'none';
 
         while (isset($json[++$index])) {
-            $prev = $char;
-            $char = $json[$index];
+            list($prev, $char) = [$char, $json[$index]];
 
-            if (!$comment && $char === '"' && $prev !== '\\') {
+            if ('none' === $comment && $char === '"' && $prev !== '\\') {
                 $inStr = !$inStr;
             }
 
-            $next = isset($json[$index + 1]) ? $json[$index + 1] : '';
+            $charnext = $char . (isset($json[$index + 1]) ? $json[$index + 1] : '');
 
-            if (!$inStr && !$comment && $char . $next === '//') {
-                $comment = 'single';
-            } elseif (!$inStr && !$comment && $char . $next === '/*') {
-                $comment = 'multi';
+            if (!$inStr && 'none' === $comment) {
+                $comment = $charnext === '//' ? 'single' : ($charnext === '/*' ? 'multi' : 'none');
             }
 
-            if ($inStr || !$comment) {
+            if ($inStr || 'none' === $comment) {
                 $return .= $char;
 
                 continue;
             }
 
-            if (($comment === 'single' && $char == "\n") ||
-                ($comment === 'multi'  && $char . $next == "*/")
+            if (($comment === 'single' && $char == "\n")
+                || ($comment === 'multi'  && $charnext == "*/")
             ) {
                 // Cosmetic fix only!
                 if ($comment === 'single') {
                     $return = rtrim($return) . $char;
                 }
-                $comment = false;
+
+                $comment = 'none';
             }
 
-            $index += $char . $next === '*/' ? 1 : 0;
+            $index += $charnext === '*/' ? 1 : 0;
         }
 
         return $return;
