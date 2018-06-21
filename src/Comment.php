@@ -9,6 +9,12 @@ namespace Ahc\Json;
  */
 class Comment
 {
+    /** @var bool If current char is within a string */
+    protected $inStr   = false;
+
+    /** @var int Lines of comments 0 = no comment, 1 = single line, 2 = multi lines */
+    protected $comment = 0;
+
     /**
      * Strip comments from JSON string.
      *
@@ -22,46 +28,54 @@ class Comment
             return $json;
         }
 
-        $index   = -1;
-        $inStr   = false;
-        $return  = '';
-        $char    = '';
-        $comment = 'none';
+        list($index, $return, $char) = [-1, '', ''];
 
         while (isset($json[++$index])) {
             list($prev, $char) = [$char, $json[$index]];
 
-            if ('none' === $comment && $char === '"' && $prev !== '\\') {
-                $inStr = !$inStr;
-            }
-
             $charnext = $char . (isset($json[$index + 1]) ? $json[$index + 1] : '');
-
-            if (!$inStr && 'none' === $comment) {
-                $comment = $charnext === '//' ? 'single' : ($charnext === '/*' ? 'multi' : 'none');
-            }
-
-            if ($inStr || 'none' === $comment) {
+            if ($this->inStringOrCommentEnd($prev, $char, $charnext)) {
                 $return .= $char;
 
                 continue;
             }
 
-            if (($comment === 'single' && $char == "\n")
-                || ($comment === 'multi' && $charnext == '*/')
-            ) {
-                // Cosmetic fix only!
-                if ($comment === 'single') {
-                    $return = rtrim($return) . $char;
-                }
-
-                $comment = 'none';
+            $wasSingle = 1 === $this->comment;
+            if ($this->hasCommentEnded($char, $charnext) && $wasSingle) {
+                $return = rtrim($return) . $char;
             }
 
             $index += $charnext === '*/' ? 1 : 0;
         }
 
         return $return;
+    }
+
+    protected function inStringOrCommentEnd($prev, $char, $charnext)
+    {
+        if (0 === $this->comment && $char === '"' && $prev !== '\\') {
+            $this->inStr = !$this->inStr;
+        }
+
+        if (!$this->inStr && 0 === $this->comment) {
+            $this->comment = $charnext === '//' ? 1 : ($charnext === '/*' ? 2 : 0);
+        }
+
+        return $this->inStr || 0 === $this->comment;
+    }
+
+    protected function hasCommentEnded($char, $charnext)
+    {
+        $singleEnded = $this->comment === 1 && $char == "\n";
+        $multiEnded  = $this->comment === 2 && $charnext == '*/';
+
+        if ($singleEnded || $multiEnded) {
+            $this->comment = 0;
+
+            return true;
+        }
+
+        return false;
     }
 
     /**
