@@ -4,12 +4,10 @@ namespace Ahc\Json\Test;
 
 use Ahc\Json\Comment;
 
-/** @coversDefaultClass \Ahc\Json\Comment */
 class CommentTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @dataProvider theTests
-     * @covers \Ahc\Json\Comment::strip
      */
     public function testStrip($json, $expect)
     {
@@ -18,7 +16,6 @@ class CommentTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider theTests
-     * @covers \Ahc\Json\Comment::decode
      */
     public function testDecode($json)
     {
