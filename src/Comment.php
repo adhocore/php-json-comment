@@ -31,8 +31,9 @@ class Comment
         list($index, $return, $char) = [-1, '', ''];
 
         while (isset($json[++$index])) {
-            list($prev, $char, $charnext) = [$char, $json[$index], $json[$index] . ($json[$index + 1] ?? '')];
+            list($prev, $char) = [$char, $json[$index]];
 
+            $charnext = $char . (isset($json[$index + 1]) ? $json[$index + 1] : '');
             if ($this->inStringOrCommentEnd($prev, $char, $charnext)) {
                 $return .= $char;
 
@@ -50,7 +51,7 @@ class Comment
         return $return;
     }
 
-    protected function inStringOrCommentEnd(string $prev, string $char, string $charnext): bool
+    protected function inStringOrCommentEnd($prev, $char, $charnext)
     {
         if (0 === $this->comment && $char === '"' && $prev !== '\\') {
             $this->inStr = !$this->inStr;
@@ -63,7 +64,7 @@ class Comment
         return $this->inStr || 0 === $this->comment;
     }
 
-    protected function hasCommentEnded(string $char, string $charnext): bool
+    protected function hasCommentEnded($char, $charnext)
     {
         $singleEnded = $this->comment === 1 && $char == "\n";
         $multiEnded  = $this->comment === 2 && $charnext == '*/';
