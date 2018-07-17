@@ -88,9 +88,9 @@ class Comment
      *
      * @see http://php.net/json_decode [JSON decode native function]
      *
-     * @return mixed
-     *
      * @throws \RuntimeException When decode fails.
+     *
+     * @return mixed
      */
     public function decode($json, $assoc = false, $depth = 512, $options = 0)
     {
