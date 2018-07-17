@@ -24,7 +24,7 @@ class Comment
      */
     public function strip($json)
     {
-        if (!preg_match('%\/(\/|\*)%', $json)) {
+        if (!\preg_match('%\/(\/|\*)%', $json)) {
             return $json;
         }
 
@@ -42,7 +42,7 @@ class Comment
 
             $wasSingle = 1 === $this->comment;
             if ($this->hasCommentEnded($char, $charnext) && $wasSingle) {
-                $return = rtrim($return) . $char;
+                $return = \rtrim($return) . $char;
             }
 
             $index += $charnext === '*/' ? 1 : 0;
@@ -92,6 +92,6 @@ class Comment
      */
     public function decode($json, $assoc = false, $depth = 512, $options = 0)
     {
-        return json_decode($this->strip($json), $assoc, $depth, $options);
+        return \json_decode($this->strip($json), $assoc, $depth, $options);
     }
 }
