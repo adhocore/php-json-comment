@@ -27,6 +27,15 @@ class CommentTest extends \PHPUnit_Framework_TestCase
         $this->assertArrayHasKey('b', $actual);
     }
 
+    /**
+     * @expectedException \RuntimeException
+     * @expectedExceptionMessage JSON decode failed
+     */
+    public function testDecodeThrows()
+    {
+        (new Comment)->decode('{"a":1, /* comment */, "b":}', true);
+    }
+
     public function theTests()
     {
         return [

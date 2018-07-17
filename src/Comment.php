@@ -88,10 +88,24 @@ class Comment
      *
      * @see http://php.net/json_decode [JSON decode native function]
      *
+     * @throws \RuntimeException When decode fails.
+     *
      * @return mixed
      */
     public function decode($json, $assoc = false, $depth = 512, $options = 0)
     {
-        return \json_decode($this->strip($json), $assoc, $depth, $options);
+        $decoded = \json_decode($this->strip($json), $assoc, $depth, $options);
+
+        if (\JSON_ERROR_NONE !== $err = \json_last_error()) {
+            $msg = 'JSON decode failed';
+
+            if (\function_exists('json_last_error_msg')) {
+                $msg .= ': ' . \json_last_error_msg();
+            }
+
+            throw new \RuntimeException($msg, $err);
+        }
+
+        return $decoded;
     }
 }
