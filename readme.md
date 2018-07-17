@@ -22,7 +22,17 @@ composer require adhocore/json-comment
 use Ahc\Json\Comment;
 
 // The JSON string!
-$someJsonText = '{...}';
+$someJsonText = '{"a":1,
+"b":2,// comment
+"c":3 /* inline comment */,
+// comment
+"d":/* also a comment */"d",
+/* creepy comment*/"e":2.3,
+/* multi line
+comment */
+"f":"f1"}';
+
+// OR
 $someJsonText = file_get_contents('...');
 
 // Strip only!
