@@ -40,4 +40,7 @@ $someJsonText = file_get_contents('...');
 
 // Strip and decode!
 (new Comment)->decode($someJsonText);
+
+// You can pass args like in `json_decode`
+(new Comment)->decode($someJsonText, $assoc = true, $depth = 512, $options = JSON_BIGINT_AS_STRING);
 ```
