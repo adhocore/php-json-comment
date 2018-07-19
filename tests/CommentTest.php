@@ -36,6 +36,20 @@ class CommentTest extends \PHPUnit_Framework_TestCase
         (new Comment)->decode('{"a":1, /* comment */, "b":}', true);
     }
 
+    public function testParse()
+    {
+        $parsed = Comment::parse('{
+            // comment
+            "a//b":"/*value*/"
+            /* also comment */
+        }', true);
+
+        $this->assertNotEmpty($parsed);
+        $this->assertInternalType('array', $parsed);
+        $this->assertArrayHasKey('a//b', $parsed);
+        $this->assertSame('/*value*/', $parsed['a//b']);
+    }
+
     public function theTests()
     {
         return [

@@ -48,7 +48,15 @@ class Comment
             $index += $charnext === '*/' ? 1 : 0;
         }
 
+        $this->reset();
+
         return $return;
+    }
+
+    protected function reset()
+    {
+        $this->comment = 0;
+        $this->inStr   = false;
     }
 
     protected function inStringOrCommentEnd($prev, $char, $charnext)
@@ -107,5 +115,19 @@ class Comment
         }
 
         return $decoded;
+    }
+
+    /**
+     * Static alias of decode().
+     */
+    public static function parse($json, $assoc = false, $depth = 512, $options = 0)
+    {
+        static $parser;
+
+        if (!$parser) {
+            $parser = new static;
+        }
+
+        return $parser->decode($json, $assoc, $depth, $options);
     }
 }
