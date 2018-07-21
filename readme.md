@@ -1,7 +1,7 @@
 ## adhocore/json-comment
 
 [![Latest Version](https://img.shields.io/github/release/adhocore/json-comment.svg?style=flat-square)](https://github.com/adhocore/json-comment/releases)
-[![Travis Build](https://img.shields.io/travis/adhocore/json-comment/master.svg?style=flat-square)](https://travis-ci.org/adhocore/json-comment?branch=master)
+[![Travis Build](https://img.shields.io/travis/adhocore/php-json-comment/master.svg?style=flat-square)](https://travis-ci.org/adhocore/php-json-comment?branch=master)
 [![Scrutinizer CI](https://img.shields.io/scrutinizer/g/adhocore/json-comment.svg?style=flat-square)](https://scrutinizer-ci.com/g/adhocore/json-comment/?branch=master)
 [![Codecov branch](https://img.shields.io/codecov/c/github/adhocore/json-comment/master.svg?style=flat-square)](https://codecov.io/gh/adhocore/json-comment)
 [![StyleCI](https://styleci.io/repos/100117199/shield)](https://styleci.io/repos/100117199)
