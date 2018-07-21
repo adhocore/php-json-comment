@@ -3,8 +3,9 @@
 namespace Ahc\Json\Test;
 
 use Ahc\Json\Comment;
+use PHPUnit\Framework\TestCase;
 
-class CommentTest extends \PHPUnit_Framework_TestCase
+class CommentTest extends TestCase
 {
     /**
      * @dataProvider theTests
