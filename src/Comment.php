@@ -78,15 +78,25 @@ class Comment
 
     protected function inStringOrCommentEnd($prev, $char, $charnext)
     {
+        return $this->inString($char, $prev) || $this->inCommentEnd($charnext);
+    }
+
+    protected function inString($char, $prev)
+    {
         if (0 === $this->comment && $char === '"' && $prev !== '\\') {
             $this->inStr = !$this->inStr;
         }
 
+        return $this->inStr;
+    }
+
+    protected function inCommentEnd($charnext)
+    {
         if (!$this->inStr && 0 === $this->comment) {
             $this->comment = $charnext === '//' ? 1 : ($charnext === '/*' ? 2 : 0);
         }
 
-        return $this->inStr || 0 === $this->comment;
+        return 0 === $this->comment;
     }
 
     protected function hasCommentEnded($char, $charnext)
