@@ -9,6 +9,9 @@ namespace Ahc\Json;
  */
 class Comment
 {
+    /** @var int The current index being scanned */
+    protected $index   = -1;
+
     /** @var bool If current char is within a string */
     protected $inStr   = false;
 
@@ -28,35 +31,49 @@ class Comment
             return $json;
         }
 
-        list($index, $return, $char) = [-1, '', ''];
+        $this->reset();
 
-        while (isset($json[++$index])) {
-            list($prev, $char) = [$char, $json[$index]];
+        return $this->doStrip($json);
+    }
 
-            $charnext = $char . (isset($json[$index + 1]) ? $json[$index + 1] : '');
-            if ($this->inStringOrCommentEnd($prev, $char, $charnext)) {
+    protected function reset()
+    {
+        $this->index   = -1;
+        $this->inStr   = false;
+        $this->comment = 0;
+    }
+
+    protected function doStrip($json)
+    {
+        $return = '';
+
+        while (isset($json[++$this->index])) {
+            list($prev, $char, $next) = $this->getSegments($json);
+
+            if ($this->inStringOrCommentEnd($prev, $char, $char . $next)) {
                 $return .= $char;
 
                 continue;
             }
 
             $wasSingle = 1 === $this->comment;
-            if ($this->hasCommentEnded($char, $charnext) && $wasSingle) {
+            if ($this->hasCommentEnded($char, $char . $next) && $wasSingle) {
                 $return = \rtrim($return) . $char;
             }
 
-            $index += $charnext === '*/' ? 1 : 0;
+            $this->index += $char . $next === '*/' ? 1 : 0;
         }
-
-        $this->reset();
 
         return $return;
     }
 
-    protected function reset()
+    protected function getSegments($json)
     {
-        $this->comment = 0;
-        $this->inStr   = false;
+        return [
+            isset($json[$this->index - 1]) ? $json[$this->index - 1] : '',
+            $json[$this->index],
+            isset($json[$this->index + 1]) ? $json[$this->index + 1] : '',
+        ];
     }
 
     protected function inStringOrCommentEnd($prev, $char, $charnext)
