@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the PHP-JSON-COMMENT package.
+ *
+ * (c) Jitendra Adhikari <jiten.adhikary@gmail.com>
+ *     <https://github.com/adhocore>
+ *
+ * Licensed under MIT license.
+ */
+
 namespace Ahc\Json\Test;
 
 use Ahc\Json\Comment;
