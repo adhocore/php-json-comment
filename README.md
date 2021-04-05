@@ -11,6 +11,9 @@
 - Lightweight JSON comment stripper library for PHP.
 - Makes possible to have comment in any form of JSON data.
 - Supported comments: single line `// comment` or multi line `/* comment */`.
+- Also strips trailing comma at the end of array or object, eg:
+    - `[1,2,,]` => `[1,2]`
+    - `{"x":1,,}` => `{"x":1}`
 
 ## Installation
 ```bash
@@ -30,7 +33,7 @@ $someJsonText = '{"a":1,
 /* creepy comment*/"e":2.3,
 /* multi line
 comment */
-"f":"f1"}';
+"f":"f1",}';
 
 // OR
 $someJsonText = file_get_contents('...');
