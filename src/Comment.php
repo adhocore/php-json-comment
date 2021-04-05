@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the PHP-JSON-COMMENT package.
  *
@@ -37,7 +39,7 @@ class Comment
      *
      * @return string The comment stripped JSON.
      */
-    public function strip($json)
+    public function strip(string $json): string
     {
         if (!\preg_match('%\/(\/|\*)%', $json) && !\preg_match('/,\s*(\}|\])/', $json)) {
             return $json;
@@ -55,7 +57,7 @@ class Comment
         $this->comment = 0;
     }
 
-    protected function doStrip($json)
+    protected function doStrip(string $json): string
     {
         $return = '';
 
@@ -81,16 +83,16 @@ class Comment
         return $return;
     }
 
-    protected function getSegments($json)
+    protected function getSegments(string $json): array
     {
         return [
-            isset($json[$this->index - 1]) ? $json[$this->index - 1] : '',
+            $json[$this->index - 1] ?? '',
             $json[$this->index],
-            isset($json[$this->index + 1]) ? $json[$this->index + 1] : '',
+            $json[$this->index + 1] ?? '',
         ];
     }
 
-    protected function checkTrail($char, $json)
+    protected function checkTrail(string $char, string $json): string
     {
         if ($char === ',' || $this->commaPos === -1) {
             $this->commaPos = $this->commaPos + ($char === ',' ? 1 : 0);
@@ -112,12 +114,12 @@ class Comment
         return $json;
     }
 
-    protected function inStringOrCommentEnd($prev, $char, $next)
+    protected function inStringOrCommentEnd(string $prev, string $char, string $next): bool
     {
         return $this->inString($char, $prev) || $this->inCommentEnd($next);
     }
 
-    protected function inString($char, $prev)
+    protected function inString(string $char, string $prev): bool
     {
         if (0 === $this->comment && $char === '"' && $prev !== '\\') {
             $this->inStr = !$this->inStr;
@@ -126,7 +128,7 @@ class Comment
         return $this->inStr;
     }
 
-    protected function inCommentEnd($next)
+    protected function inCommentEnd(string $next): bool
     {
         if (!$this->inStr && 0 === $this->comment) {
             $this->comment = $next === '//' ? 1 : ($next === '/*' ? 2 : 0);
@@ -135,7 +137,7 @@ class Comment
         return 0 === $this->comment;
     }
 
-    protected function hasCommentEnded($char, $next)
+    protected function hasCommentEnded(string $char, string $next): bool
     {
         $singleEnded = $this->comment === 1 && $char == "\n";
         $multiEnded  = $this->comment === 2 && $next == '*/';
@@ -152,10 +154,10 @@ class Comment
     /**
      * Strip comments and decode JSON string.
      *
-     * @param string    $json
-     * @param bool|bool $assoc
-     * @param int|int   $depth
-     * @param int|int   $options
+     * @param string $json
+     * @param bool   $assoc
+     * @param int    $depth
+     * @param int    $options
      *
      * @see http://php.net/json_decode [JSON decode native function]
      *
@@ -163,7 +165,7 @@ class Comment
      *
      * @return mixed
      */
-    public function decode($json, $assoc = false, $depth = 512, $options = 0)
+    public function decode(string $json, bool $assoc = false, int $depth = 512, int $options = 0)
     {
         $decoded = \json_decode($this->strip($json), $assoc, $depth, $options);
 
@@ -183,7 +185,7 @@ class Comment
     /**
      * Static alias of decode().
      */
-    public static function parse($json, $assoc = false, $depth = 512, $options = 0)
+    public static function parse(string $json, bool $assoc = false, int $depth = 512, int $options = 0)
     {
         static $parser;
 
