@@ -12,20 +12,23 @@
 namespace Ahc\Json;
 
 /**
- * JSON comment stripper.
+ * JSON comment and trailing comma stripper.
  *
  * @author Jitendra Adhikari <jiten.adhikary@gmail.com>
  */
 class Comment
 {
     /** @var int The current index being scanned */
-    protected $index   = -1;
+    protected $index = -1;
 
     /** @var bool If current char is within a string */
-    protected $inStr   = false;
+    protected $inStr = false;
 
     /** @var int Lines of comments 0 = no comment, 1 = single line, 2 = multi lines */
     protected $comment = 0;
+
+    /** @var int Holds the backtace position of a possibly trailing comma */
+    protected $commaPos = -1;
 
     /**
      * Strip comments from JSON string.
@@ -36,7 +39,7 @@ class Comment
      */
     public function strip($json)
     {
-        if (!\preg_match('%\/(\/|\*)%', $json)) {
+        if (!\preg_match('%\/(\/|\*)%', $json) && !\preg_match('/,\s*(\}|\])/', $json)) {
             return $json;
         }
 
@@ -58,6 +61,8 @@ class Comment
 
         while (isset($json[++$this->index])) {
             list($prev, $char, $next) = $this->getSegments($json);
+
+            $return = $this->checkTrail($char, $return);
 
             if ($this->inStringOrCommentEnd($prev, $char, $char . $next)) {
                 $return .= $char;
@@ -85,9 +90,31 @@ class Comment
         ];
     }
 
-    protected function inStringOrCommentEnd($prev, $char, $charnext)
+    protected function checkTrail($char, $json)
     {
-        return $this->inString($char, $prev) || $this->inCommentEnd($charnext);
+        if ($char === ',' || $this->commaPos === -1) {
+            $this->commaPos = $this->commaPos + ($char === ',' ?  1 : 0);
+
+            return $json;
+        }
+
+        if (\ctype_digit($char) || \strpbrk($char, '"tfn{[')) {
+            $this->commaPos = -1;
+        } elseif ($char === ']' || $char === '}') {
+            $pos  = \strlen($json) - $this->commaPos - 1;
+            $json = \substr($json, 0, $pos) . \ltrim(\substr($json, $pos), ',');
+
+            $this->commaPos = -1;
+        } else {
+            $this->commaPos += 1;
+        }
+
+        return $json;
+    }
+
+    protected function inStringOrCommentEnd($prev, $char, $next)
+    {
+        return $this->inString($char, $prev) || $this->inCommentEnd($next);
     }
 
     protected function inString($char, $prev)
@@ -99,19 +126,19 @@ class Comment
         return $this->inStr;
     }
 
-    protected function inCommentEnd($charnext)
+    protected function inCommentEnd($next)
     {
         if (!$this->inStr && 0 === $this->comment) {
-            $this->comment = $charnext === '//' ? 1 : ($charnext === '/*' ? 2 : 0);
+            $this->comment = $next === '//' ? 1 : ($next === '/*' ? 2 : 0);
         }
 
         return 0 === $this->comment;
     }
 
-    protected function hasCommentEnded($char, $charnext)
+    protected function hasCommentEnded($char, $next)
     {
         $singleEnded = $this->comment === 1 && $char == "\n";
-        $multiEnded  = $this->comment === 2 && $charnext == '*/';
+        $multiEnded  = $this->comment === 2 && $next == '*/';
 
         if ($singleEnded || $multiEnded) {
             $this->comment = 0;
