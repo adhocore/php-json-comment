@@ -18,6 +18,9 @@
 ## Installation
 ```bash
 composer require adhocore/json-comment
+
+# for php5.6
+composer require adhocore/json-comment:^0.2
 ```
 
 ## Usage
