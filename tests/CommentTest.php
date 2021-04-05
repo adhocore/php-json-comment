@@ -37,12 +37,11 @@ class CommentTest extends TestCase
         $this->assertArrayHasKey('b', $actual);
     }
 
-    /**
-     * @expectedException \RuntimeException
-     * @expectedExceptionMessage JSON decode failed
-     */
     public function testDecodeThrows()
     {
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('JSON decode failed');
+
         (new Comment)->decode('{"a":1, /* comment */, "b":}', true);
     }
 
@@ -55,7 +54,7 @@ class CommentTest extends TestCase
         }', true);
 
         $this->assertNotEmpty($parsed);
-        $this->assertInternalType('array', $parsed);
+        $this->assertTrue(is_array($parsed));
         $this->assertArrayHasKey('a//b', $parsed);
         $this->assertSame('/*value*/', $parsed['a//b']);
     }
@@ -67,12 +66,16 @@ class CommentTest extends TestCase
                 'json'   => '{"a":1,"b":2}',
                 'expect' => '{"a":1,"b":2}',
             ],
+            'with trail only' => [
+                'json'   => '{"a":1,"b":2,,}',
+                'expect' => '{"a":1,"b":2}',
+            ],
             'single line comment' => [
                 'json'   => '{"a":1,
                 // comment
                 "b":2,
                 // comment
-                "c":3}',
+                "c":3,,}',
                 'expect' => '{"a":1,
                 "b":2,
                 "c":3}',
@@ -80,17 +83,17 @@ class CommentTest extends TestCase
             'single line comment at end' => [
                 'json'   => '{"a":1,
                 "b":2,// comment
-                "c":3}',
+                "c":[1,2,,]}',
                 'expect' => '{"a":1,
                 "b":2,
-                "c":3}',
+                "c":[1,2]}',
             ],
             'real multiline comment' => [
                 'json'   => '{"a":1,
                 /*
                  * comment
                  */
-                "b":2, "c":3}',
+                "b":2, "c":3,}',
                 'expect' => '{"a":1,
                 ' . '
                 "b":2, "c":3}',
@@ -102,7 +105,7 @@ class CommentTest extends TestCase
                  "b":2, "c":3}',
             ],
             'inline multiline comment at end' => [
-                'json'   => '{"a":1, "b":2, "c":3/* comment */}',
+                'json'   => '{"a":1, "b":2, "c":3/* comment */,}',
                 'expect' => '{"a":1, "b":2, "c":3}',
             ],
             'comment inside string' => [
