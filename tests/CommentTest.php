@@ -59,6 +59,14 @@ class CommentTest extends TestCase
         $this->assertSame('/*value*/', $parsed['a//b']);
     }
 
+    public function testParseFromFile()
+    {
+        $parsed = Comment::parseFromFile(__DIR__ . '/composer.json', true);
+
+        $this->assertTrue(is_array($parsed));
+        $this->assertSame('adhocore/json-comment', $parsed['name']);
+    }
+
     public function theTests()
     {
         return [
