@@ -93,7 +93,7 @@ class Comment
     protected function checkTrail($char, $json)
     {
         if ($char === ',' || $this->commaPos === -1) {
-            $this->commaPos = $this->commaPos + ($char === ',' ?  1 : 0);
+            $this->commaPos = $this->commaPos + ($char === ',' ? 1 : 0);
 
             return $json;
         }
