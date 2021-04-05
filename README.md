@@ -52,4 +52,7 @@ $someJsonText = file_get_contents('...');
 
 // Or you can use static alias of decode:
 Comment::parse($json, true);
+
+# Or use file directly
+Comment::parseFromFile('/path/to/file.json', true);
 ```
