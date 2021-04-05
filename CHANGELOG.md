@@ -1,3 +1,18 @@
+## [1.0.0](https://github.com/adhocore/php-json-comment/releases/tag/1.0.0) (2021-04-05)
+
+### Internal Refactors
+- **Comment**: Upgrade to php7 syntax (Jitendra Adhikari) [_9d28f73_](https://github.com/adhocore/php-json-comment/commit/9d28f73)
+
+### Miscellaneous
+- **Composer**: Require php7 (Jitendra Adhikari) [_28d825c_](https://github.com/adhocore/php-json-comment/commit/28d825c)
+
+### Documentations
+- Php5.6 (Jitendra Adhikari) [_39237bb_](https://github.com/adhocore/php-json-comment/commit/39237bb)
+
+### Builds
+- **Travis**: Retire php5, add php8 (Jitendra Adhikari) [_e71e04f_](https://github.com/adhocore/php-json-comment/commit/e71e04f)
+
+
 ## [0.2.0](https://github.com/adhocore/php-json-comment/releases/tag/0.2.0) (2021-04-05)
 
 ### Features
