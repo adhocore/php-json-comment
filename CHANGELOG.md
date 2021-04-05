@@ -1,3 +1,12 @@
+## [1.1.0](https://github.com/adhocore/php-json-comment/releases/tag/1.1.0) (2021-04-05)
+
+### Features
+- **Comment**: Add parse from file (Jitendra Adhikari) [_c9511b0_](https://github.com/adhocore/php-json-comment/commit/c9511b0)
+
+### Documentations
+- Add parseFromFile (Jitendra Adhikari) [_91b16b9_](https://github.com/adhocore/php-json-comment/commit/91b16b9)
+
+
 ## [1.0.0](https://github.com/adhocore/php-json-comment/releases/tag/1.0.0) (2021-04-05)
 
 ### Internal Refactors
