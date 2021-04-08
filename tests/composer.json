@@ -1,6 +1,7 @@
 {
   "name": "adhocore/json-comment",
-  "description": "Lightweight JSON comment stripper library for PHP",
+  "description": "JSON comment stripper library for PHP.
+    There is literal line break just above this line but that's okay",
   "type":/* This is creepy comment */ "library",
   "keywords": [
     "json",
@@ -10,7 +11,7 @@
   ],
   "license": "MIT",
   /*
-   * This is multiline comment
+   * This is a multiline comment.
    */
   "authors": [
     {
@@ -38,6 +39,6 @@
   "scripts": {
       "test": "phpunit",
       "echo": "echo '// This is not comment'",
-      "test:cov": "phpunit --coverage-text --coverage-clover coverage.xml",
+      "test:cov": "phpunit --coverage-text",
   },
 }
