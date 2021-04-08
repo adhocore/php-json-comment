@@ -60,6 +60,7 @@ class Comment
     protected function doStrip(string $json): string
     {
         $return = '';
+        $crlf   = ["\n" => '\n', "\r" => '\r'];
 
         while (isset($json[++$this->index])) {
             list($prev, $char, $next) = $this->getSegments($json);
@@ -67,7 +68,7 @@ class Comment
             $return = $this->checkTrail($char, $return);
 
             if ($this->inStringOrCommentEnd($prev, $char, $char . $next)) {
-                $return .= $char;
+                $return .= $this->inStr && isset($crlf[$char]) ? $crlf[$char] : $char;
 
                 continue;
             }
