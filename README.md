@@ -14,6 +14,7 @@
 - Also strips trailing comma at the end of array or object, eg:
     - `[1,2,,]` => `[1,2]`
     - `{"x":1,,}` => `{"x":1}`
+- Handles literal LF (newline/linefeed) within string notation
 
 ## Installation
 ```bash
@@ -55,4 +56,55 @@ Comment::parse($json, true);
 
 # Or use file directly
 Comment::parseFromFile('/path/to/file.json', true);
+```
+
+### Example
+
+An example JSON that this library can parse:s
+
+```json
+{
+  "name": "adhocore/json-comment",
+  "description": "JSON comment stripper library for PHP.
+    There is literal line break just above this line but that's okay",
+  "type":/* This is creepy comment */ "library",
+  "keywords": [
+    "json",
+    "comment",
+    // Single line comment, Notice the comma below:
+    "strip-comment",
+  ],
+  "license": "MIT",
+  /*
+   * This is a multiline comment.
+   */
+  "authors": [
+    {
+      "name": "Jitendra Adhikari",
+      "email": "jiten.adhikary@gmail.com",
+    },
+  ],
+  "autoload": {
+      "psr-4": {
+          "Ahc\\Json\\": "src/",
+      },
+  },
+  "autoload-dev": {
+      "psr-4": {
+          "Ahc\\Json\\Test\\": "tests/",
+      },
+  },
+  "require": {
+      "php": ">=7.0",
+      "ext-ctype": "*",
+  },
+  "require-dev": {
+      "phpunit/phpunit": "^6.5 || ^7.5 || ^8.5",
+  },
+  "scripts": {
+      "test": "phpunit",
+      "echo": "echo '// This is not comment'",
+      "test:cov": "phpunit --coverage-text",
+  },
+}
 ```
