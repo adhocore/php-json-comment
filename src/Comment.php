@@ -204,8 +204,8 @@ class Comment
     public static function parseFromFile(string $file, bool $assoc = false, int $depth = 512, int $options = 0)
     {
         $json = file_get_contents($file);
-echo "\n";
-// echo (new static)->strip($json);
+        echo "\n";
+        // echo (new static)->strip($json);
         return static::parse(trim($json), $assoc, $depth, $options);
     }
 }
