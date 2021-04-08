@@ -14,7 +14,7 @@
 - Also strips trailing comma at the end of array or object, eg:
     - `[1,2,,]` => `[1,2]`
     - `{"x":1,,}` => `{"x":1}`
-- Handles literal LF (newline/linefeed) within string notation
+- Handles literal LF (newline/linefeed) within string notation so that we can have multiline string
 
 ## Installation
 ```bash
