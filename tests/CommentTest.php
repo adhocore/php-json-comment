@@ -128,6 +128,10 @@ class CommentTest extends TestCase
                 'json'   => '{"a": "ab", /* also comment */ "b":"a/* not a comment */b" /* "comment string" */ }',
                 'expect' => '{"a": "ab",  "b":"a/* not a comment */b"  }',
             ],
+            'literal lf' => [
+                'json'   => '{"a":/*literal linefeed*/"apple' . "\n" . 'ball","b":"","c\\\\":"",}',
+                'expect' => '{"a":"apple\nball","b":"","c\\\\":""}',
+            ],
         ];
     }
 }
