@@ -1,3 +1,12 @@
+## [1.1.2](https://github.com/adhocore/php-json-comment/releases/tag/1.1.2) (2021-04-09)
+
+### Miscellaneous
+- Cleanup (Jitendra Adhikari) [_16993a7_](https://github.com/adhocore/php-json-comment/commit/16993a7)
+
+### Documentations
+- Multiline string (Jitendra Adhikari) [_5b70678_](https://github.com/adhocore/php-json-comment/commit/5b70678)
+
+
 ## [1.1.1](https://github.com/adhocore/php-json-comment/releases/tag/1.1.1) (2021-04-08)
 
 ### Features
