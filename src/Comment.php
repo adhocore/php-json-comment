@@ -63,11 +63,12 @@ class Comment
         $crlf   = ["\n" => '\n', "\r" => '\r'];
 
         while (isset($json[++$this->index])) {
+            $oldprev = $prev ?? '';
             list($prev, $char, $next) = $this->getSegments($json);
 
             $return = $this->checkTrail($char, $return);
 
-            if ($this->inStringOrCommentEnd($prev, $char, $char . $next)) {
+            if ($this->inStringOrCommentEnd($prev, $char, $char . $next, $oldprev)) {
                 $return .= $this->inStr && isset($crlf[$char]) ? $crlf[$char] : $char;
 
                 continue;
@@ -115,19 +116,19 @@ class Comment
         return $json;
     }
 
-    protected function inStringOrCommentEnd(string $prev, string $char, string $next): bool
+    protected function inStringOrCommentEnd(string $prev, string $char, string $next, string $oldprev): bool
     {
-        return $this->inString($char, $prev, $next) || $this->inCommentEnd($next);
+        return $this->inString($char, $prev, $next, $oldprev) || $this->inCommentEnd($next);
     }
 
-    protected function inString(string $char, string $prev, string $next): bool
+    protected function inString(string $char, string $prev, string $next, string $oldprev): bool
     {
         if (0 === $this->comment && $char === '"' && $prev !== '\\') {
             return $this->inStr = !$this->inStr;
         }
 
         if ($this->inStr && \in_array($next, ['":', '",', '"]', '"}'], true)) {
-            $this->inStr = false;
+            $this->inStr = "$oldprev$prev" !== '\\\\';
         }
 
         return $this->inStr;
