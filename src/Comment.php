@@ -204,17 +204,13 @@ class Comment
 
     public static function parseFromFile(string $file, bool $assoc = false, int $depth = 512, int $options = 0)
     {
-        if(!file_exists($file))
-        {
-            throw new \RuntimeException(sprintf("File %s does not exist", $file));
+        if (!file_exists($file)) {
+            throw new \RuntimeException(sprintf('File %s does not exist', $file));
         }
 
-
-        if(!is_file($file))
-        {
-            throw new \RuntimeException(sprintf("%s is not a file", $file));
+        if (!is_file($file)) {
+            throw new \RuntimeException(sprintf('%s is not a file', $file));
         }
-
 
         $json = \file_get_contents($file);
 

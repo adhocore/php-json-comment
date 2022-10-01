@@ -84,7 +84,6 @@ class CommentTest extends TestCase
         Comment::parseFromFile(__DIR__, true);
     }
 
-
     public function testSubJson()
     {
         // https://github.com/adhocore/php-json-comment/issues/15
