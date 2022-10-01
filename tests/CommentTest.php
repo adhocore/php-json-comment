@@ -64,7 +64,31 @@ class CommentTest extends TestCase
         $parsed = Comment::parseFromFile(__DIR__ . '/composer.json', true);
 
         $this->assertTrue(is_array($parsed));
+        $this->assertNotEmpty($parsed);
         $this->assertSame('adhocore/json-comment', $parsed['name']);
+    }
+
+    public function testSubJson()
+    {
+        // https://github.com/adhocore/php-json-comment/issues/15
+        $parsed = Comment::parse('{
+            "jo": "{
+                /* comment */
+                \"url\": \"http://example.com\"//comment
+            }",
+            "x": {
+              /* comment 1
+                 comment 2 */
+              "y": {
+                // comment
+                "XY\\\": "//no comment/*",
+              },
+            }
+        }', true);
+
+        $this->assertArrayHasKey('jo', $parsed);
+        $this->assertSame('//no comment/*', $parsed['x']['y']['XY\\']);
+        $this->assertSame('http://example.com', Comment::parse($parsed['jo'])->url);
     }
 
     public function theTests()
