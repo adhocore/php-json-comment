@@ -19,6 +19,7 @@
     - `[1,2,,]` => `[1,2]`
     - `{"x":1,,}` => `{"x":1}`
 - Handles literal LF (newline/linefeed) within string notation so that we can have multiline string
+- Supports JSON string inside JSON string (see ticket #15 and PR #16)
 
 ## Installation
 ```bash
