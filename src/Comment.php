@@ -171,7 +171,7 @@ class Comment
      *
      * @return mixed
      */
-    public function decode(string $json, bool $assoc = false, int $depth = 512, int $options = 0)
+    public function decode(string $json, bool $assoc = false, int $depth = 512, int $options = 0): mixed
     {
         $decoded = \json_decode($this->strip($json), $assoc, $depth, $options);
 
@@ -191,7 +191,7 @@ class Comment
     /**
      * Static alias of decode().
      */
-    public static function parse(string $json, bool $assoc = false, int $depth = 512, int $options = 0)
+    public static function parse(string $json, bool $assoc = false, int $depth = 512, int $options = 0): mixed
     {
         static $parser;
 
@@ -212,7 +212,7 @@ class Comment
      *
      * @return string Stripped JSON from provided file
      */
-    public static function parseFromFile(string $file, bool $assoc = false, int $depth = 512, int $options = 0)
+    public static function parseFromFile(string $file, bool $assoc = false, int $depth = 512, int $options = 0): mixed
     {
         $json = \file_get_contents($file);
 
