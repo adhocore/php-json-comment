@@ -70,16 +70,18 @@ class CommentTest extends TestCase
 
     public function testParseFromFileThrowsNotExists()
     {
-        $this->expectException(\RuntimeException::class);
-        $this->expectExceptionMessage('File does-not-exist.json does not exist');
+        $file = 'does-not-exist.json';
 
-        Comment::parseFromFile('does-not-exist.json', true);
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage($file . ' does not exist or is not a file');
+
+        Comment::parseFromFile($file, true);
     }
 
     public function testParseFromFileThrowsNotFile()
     {
         $this->expectException(\RuntimeException::class);
-        $this->expectExceptionMessage(__DIR__ . ' is not a file');
+        $this->expectExceptionMessage(__DIR__ . ' does not exist or is not a file');
 
         Comment::parseFromFile(__DIR__, true);
     }
