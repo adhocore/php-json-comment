@@ -1,3 +1,9 @@
+## [1.2.0](https://github.com/adhocore/php-json-comment/releases/tag/1.2.0) (2022-10-01)
+
+### Bug Fixes
+- Json string inside json with comment like value breaks (Jitendra) [_d0d878a_](https://github.com/adhocore/php-json-comment/commit/d0d878a)
+
+
 ## [1.1.2](https://github.com/adhocore/php-json-comment/releases/tag/1.1.2) (2021-04-09)
 
 ### Miscellaneous
