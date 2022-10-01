@@ -63,7 +63,7 @@ class Comment
         $crlf   = ["\n" => '\n', "\r" => '\r'];
 
         while (isset($json[++$this->index])) {
-            $oldprev = $prev ?? '';
+            $oldprev                  = $prev ?? '';
             list($prev, $char, $next) = $this->getSegments($json);
 
             $return = $this->checkTrail($char, $return);
