@@ -202,6 +202,16 @@ class Comment
         return $parser->decode($json, $assoc, $depth, $options);
     }
 
+    /**
+     * Return stripped and decoded JSON from file. Does not check if file exists.
+     *
+     * @param string $file
+     * @param bool   $assoc
+     * @param int    $depth
+     * @param int    $options
+     *
+     * @return string Stripped JSON from provided file
+     */
     public static function parseFromFile(string $file, bool $assoc = false, int $depth = 512, int $options = 0)
     {
         $json = \file_get_contents($file);
