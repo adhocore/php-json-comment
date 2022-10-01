@@ -72,7 +72,7 @@ class CommentTest extends TestCase
     {
         $file = 'does-not-exist.json';
 
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage($file . ' does not exist or is not a file');
 
         Comment::parseFromFile($file, true);
@@ -80,7 +80,7 @@ class CommentTest extends TestCase
 
     public function testParseFromFileThrowsNotFile()
     {
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage(__DIR__ . ' does not exist or is not a file');
 
         Comment::parseFromFile(__DIR__, true);

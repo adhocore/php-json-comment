@@ -205,7 +205,7 @@ class Comment
     public static function parseFromFile(string $file, bool $assoc = false, int $depth = 512, int $options = 0)
     {
         if (!is_file($file)) {
-            throw new \RuntimeException($file . ' does not exist or is not a file');
+            throw new \InvalidArgumentException($file . ' does not exist or is not a file');
         }
 
         $json = \file_get_contents($file);
