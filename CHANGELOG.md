@@ -1,3 +1,12 @@
+## [1.2.1](https://github.com/adhocore/php-json-comment/releases/tag/1.2.1) (2022-10-02)
+
+### Bug Fixes
+- Check file existence by @martijnengler (Jitendra Adhikari) [_0c8378d_](https://github.com/adhocore/php-json-comment/commit/0c8378d)
+
+### Miscellaneous
+- Retire <PHP7.3, add PHP8.1 (Jitendra) [_2b34020_](https://github.com/adhocore/php-json-comment/commit/2b34020)
+
+
 ## [1.2.0](https://github.com/adhocore/php-json-comment/releases/tag/1.2.0) (2022-10-01)
 
 ### Bug Fixes
