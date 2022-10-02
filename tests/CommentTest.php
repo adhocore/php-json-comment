@@ -68,6 +68,24 @@ class CommentTest extends TestCase
         $this->assertSame('adhocore/json-comment', $parsed['name']);
     }
 
+    public function testParseFromFileThrowsNotExists()
+    {
+        $file = 'does-not-exist.json';
+
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage($file . ' does not exist or is not a file');
+
+        Comment::parseFromFile($file, true);
+    }
+
+    public function testParseFromFileThrowsNotFile()
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage(__DIR__ . ' does not exist or is not a file');
+
+        Comment::parseFromFile(__DIR__, true);
+    }
+
     public function testSubJson()
     {
         // https://github.com/adhocore/php-json-comment/issues/15
