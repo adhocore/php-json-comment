@@ -20,6 +20,7 @@
     - `{"x":1,,}` => `{"x":1}`
 - Handles literal LF (newline/linefeed) within string notation so that we can have multiline string
 - Supports JSON string inside JSON string (see ticket [#15](https://github.com/adhocore/php-json-comment/issues/15) and PR [#16](https://github.com/adhocore/php-json-comment/pull/16))
+- Zero dependency (no vendor bloat).
 
 ## Installation
 ```bash
