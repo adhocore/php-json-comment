@@ -67,7 +67,7 @@ Comment::parseFromFile('/path/to/file.json', true);
 
 ### Example
 
-An example JSON that this library can parse:s
+An example JSON that this library can parse:
 
 ```json
 {
@@ -83,7 +83,8 @@ An example JSON that this library can parse:s
   ],
   "license": "MIT",
   /*
-   * This is a multiline comment.
+   * This is a multiline
+   * comment.
    */
   "authors": [
     {
